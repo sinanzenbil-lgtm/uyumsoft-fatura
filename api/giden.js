@@ -1,8 +1,6 @@
 const axios = require('axios');
-const xml2js = require('xml2js');
 
 module.exports = async (req, res) => {
-    // CORS headers
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
@@ -17,123 +15,71 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const { startDate, endDate } = req.body;
-
         const username = process.env.UYUMSOFT_USERNAME;
         const password = process.env.UYUMSOFT_PASSWORD;
         
-        // Uyumsoft Canlı API URL
-        const apiUrl = 'https://efatura.uyumsoft.com.tr/Services/Integration';
+        const { startDate, endDate } = req.body;
+        
+        const start = startDate || '2024-01-01T00:00:00.000';
+        const end = endDate || '2025-12-31T23:59:59.999';
+        
+        const apiUrl = 'http://edonusumapi.uyum.com.tr/api/BasicIntegrationApi';
 
-        // SOAP Request for GetOutboxInvoiceList (Giden Faturalar)
-        const soapRequest = `<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
-    <soap:Header/>
-    <soap:Body>
-        <tem:GetOutboxInvoiceList>
-            <tem:userInfo>
-                <tem:Username>${username}</tem:Username>
-                <tem:Password>${password}</tem:Password>
-            </tem:userInfo>
-            <tem:invoiceListRequest>
-                <tem:Taken>All</tem:Taken>
-            </tem:invoiceListRequest>
-        </tem:GetOutboxInvoiceList>
-    </soap:Body>
-</soap:Envelope>`;
+        const requestBody = {
+            "Action": "GetOutboxInvoiceList",
+            "parameters": {
+                "userInfo": {
+                    "Username": username,
+                    "Password": password
+                },
+                "query": {
+                    "CreateStartDate": start,
+                    "CreateEndDate": end
+                }
+            }
+        };
 
-        console.log('=== UYUMSOFT GIDEN FATURA API ===');
-        console.log('URL:', apiUrl);
-        console.log('Username:', username);
-
-        const response = await axios.post(apiUrl, soapRequest, {
+        const response = await axios({
+            method: 'post',
+            url: apiUrl,
+            data: requestBody,
             headers: {
-                'Content-Type': 'text/xml; charset=utf-8',
-                'SOAPAction': 'http://tempuri.org/IIntegration/GetOutboxInvoiceList'
+                'Content-Type': 'application/json; charset=utf-8',
+                'Accept': '*/*'
             },
-            timeout: 60000,
-            validateStatus: () => true
-        });
-
-        console.log('Response Status:', response.status);
-
-        // Parse XML response
-        const parser = new xml2js.Parser({ 
-            explicitArray: false, 
-            ignoreAttrs: false,
-            tagNameProcessors: [xml2js.processors.stripPrefix]
+            timeout: 60000
         });
 
         let invoices = [];
-        let parsedResult = null;
-
-        try {
-            parsedResult = await parser.parseStringPromise(response.data);
-            
-            // Navigate through SOAP response structure
-            const body = parsedResult?.Envelope?.Body;
-            const responseData = body?.GetOutboxInvoiceListResponse?.GetOutboxInvoiceListResult;
-            
-            if (responseData?.Value?.InvoiceInfo) {
-                const invoiceData = responseData.Value.InvoiceInfo;
-                invoices = Array.isArray(invoiceData) ? invoiceData : [invoiceData];
-            }
-            
-            // Check for fault
-            if (body?.Fault) {
-                return res.status(400).json({
-                    success: false,
-                    error: body.Fault.faultstring || 'SOAP Fault',
-                    faultCode: body.Fault.faultcode,
-                    rawResponse: response.data
-                });
-            }
-
-            // Check for error in response
-            if (responseData?.IsSucceded === 'false' || responseData?.IsSucceded === false) {
-                return res.status(400).json({
-                    success: false,
-                    error: responseData?.Message || 'API Error',
-                    rawResponse: response.data
-                });
-            }
-
-        } catch (parseError) {
-            console.log('XML Parse Error:', parseError.message);
+        
+        if (response.data?.Data?.Value?.Items) {
+            invoices = response.data.Data.Value.Items;
         }
 
-        // Format invoices for frontend
         const formattedInvoices = invoices.map(inv => ({
-            invoiceNumber: inv.InvoiceNumber || inv.ID || '-',
-            uuid: inv.UUID || '-',
-            invoiceDate: inv.IssueDate || inv.InvoiceDate || '-',
-            receiverName: inv.ReceiverName || inv.AccountingCustomerParty?.Party?.PartyName?.Name || '-',
-            receiverVkn: inv.ReceiverVkn || inv.ReceiverIdentifier || '-',
-            amount: parseFloat(inv.PayableAmount) || parseFloat(inv.TaxExclusiveAmount) || 0,
-            taxAmount: parseFloat(inv.TaxTotal) || parseFloat(inv.TaxAmount) || 0,
-            totalAmount: parseFloat(inv.PayableAmount) || parseFloat(inv.GrandTotal) || 0,
+            invoiceNumber: inv.InvoiceId || '-',
+            uuid: inv.DocumentId || '-',
+            invoiceDate: inv.ExecutionDate || inv.CreateDateUtc || '-',
+            receiverName: inv.TargetTitle || '-',
+            receiverVkn: inv.TargetTcknVkn || '-',
+            amount: inv.TaxExclusiveAmount || 0,
+            taxAmount: inv.TaxTotal || 0,
+            totalAmount: inv.PayableAmount || 0,
             currency: inv.DocumentCurrencyCode || 'TRY',
-            status: inv.Status || inv.InvoiceStatus || '-',
-            profileId: inv.ProfileId || '-',
-            invoiceType: inv.InvoiceTypeCode || inv.InvoiceType || '-'
+            status: inv.Status === 1000 ? 'Onaylandı' : inv.Status || '-'
         }));
 
         return res.status(200).json({
             success: true,
-            type: 'outgoing',
             count: formattedInvoices.length,
-            invoices: formattedInvoices,
-            rawResponse: response.data
+            invoices: formattedInvoices
         });
 
     } catch (error) {
-        console.error('API Error:', error.message);
-        
         return res.status(500).json({
             success: false,
             error: error.message,
-            code: error.code,
-            details: error.response?.data || error.toString()
+            details: error.response?.data
         });
     }
 };
