@@ -1,154 +1,86 @@
-/favicon.ico:1  GET https://uyumsoft-fatura-4s3i.vercel.app/favicon.ico 404 (Not Found)
-(dizin):794  POST https://uyumsoft-fatura-4s3i.vercel.app/api/giden 400 (Bad Request)
-queryFaturalar @ (dizin):794
-onclick @ (dizin):521
-(dizin):813 Fatura sorgulama hatası: Error: [object Object]
-    at queryFaturalar ((dizin):805:27)
-queryFaturalar @ (dizin):813
-await in queryFaturalar
-onclick @ (dizin):521
-fetch('/api/gelen', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{}'}).then(r => r.json()).then(data => console.log(JSON.stringify(data, null, 2)))
-Promise {<pending>}
-VM249:1 {
-  "success": true,
-  "count": 0,
-  "invoices": [],
-  "raw": {
-    "ContentEncoding": null,
-    "ContentType": null,
-    "Data": {
-      "Value": {
-        "Items": [
-          {
-            "IsNew": true,
-            "IsSeen": false,
-            "InvoiceId": "UKF2025000022667",
-            "DocumentId": "1be6c184-fbb5-447b-be13-560fa1a8d12a",
-            "Type": 0,
-            "TypeCode": 0,
-            "TargetTcknVkn": "9000500394",
-            "TargetTitle": "Uyumsoft Kurumsal İş Sistemleri ve Teknoloji A.Ş.",
-            "EnvelopeIdentifier": "2bf02ba2-7ddd-4581-9372-965c4b5a277b",
-            "Status": 1000,
-            "StatusCode": 1000,
-            "EnvelopeStatus": 1300,
-            "EnvelopeStatusCode": 1300,
-            "Message": null,
-            "CreateDateUtc": "2025-01-16T20:39:17.607",
-            "ExecutionDate": "2025-01-16T14:51:00",
-            "PayableAmount": 900,
-            "TaxTotal": 150,
-            "TaxExclusiveAmount": 750,
-            "DocumentCurrencyCode": "TRY",
-            "ExchangeRate": 1,
-            "Vat1": 0,
-            "Vat8": 0,
-            "Vat10": 0,
-            "Vat18": 0,
-            "Vat20": 150,
-            "Vat0TaxableAmount": 0,
-            "Vat1TaxableAmount": 0,
-            "Vat8TaxableAmount": 0,
-            "Vat10TaxableAmount": 0,
-            "Vat18TaxableAmount": 0,
-            "Vat20TaxableAmount": 750,
-            "OrderDocumentId": null,
-            "IsArchived": false,
-            "InvoiceTipType": 0,
-            "InvoiceTipTypeCode": 0
-          },
-          {
-            "IsNew": true,
-            "IsSeen": false,
-            "InvoiceId": "UKF2025000018575",
-            "DocumentId": "796e7911-d48f-43ba-8a6f-58827884209a",
-            "Type": 0,
-            "TypeCode": 0,
-            "TargetTcknVkn": "9000500394",
-            "TargetTitle": "Uyumsoft Kurumsal İş Sistemleri ve Teknoloji A.Ş.",
-            "EnvelopeIdentifier": "1f253357-8081-42e3-ad1f-f141c1ef7eff",
-            "Status": 1000,
-            "StatusCode": 1000,
-            "EnvelopeStatus": 1300,
-            "EnvelopeStatusCode": 1300,
-            "Message": null,
-            "CreateDateUtc": "2025-01-16T20:39:32.723",
-            "ExecutionDate": "2025-01-16T13:38:00",
-            "PayableAmount": 1200,
-            "TaxTotal": 200,
-            "TaxExclusiveAmount": 1000,
-            "DocumentCurrencyCode": "TRY",
-            "ExchangeRate": 1,
-            "Vat1": 0,
-            "Vat8": 0,
-            "Vat10": 0,
-            "Vat18": 0,
-            "Vat20": 200,
-            "Vat0TaxableAmount": 0,
-            "Vat1TaxableAmount": 0,
-            "Vat8TaxableAmount": 0,
-            "Vat10TaxableAmount": 0,
-            "Vat18TaxableAmount": 0,
-            "Vat20TaxableAmount": 1000,
-            "OrderDocumentId": null,
-            "IsArchived": false,
-            "InvoiceTipType": 0,
-            "InvoiceTipTypeCode": 0
-          },
-          {
-            "IsNew": true,
-            "IsSeen": false,
-            "InvoiceId": "UKF2025000027874",
-            "DocumentId": "ab9b32fb-d6a6-4c0b-a1e9-11833954dbf1",
-            "Type": 0,
-            "TypeCode": 0,
-            "TargetTcknVkn": "9000500394",
-            "TargetTitle": "Uyumsoft Kurumsal İş Sistemleri ve Teknoloji A.Ş.",
-            "EnvelopeIdentifier": "a86e7c60-a88e-4cf3-90eb-4866c1d25a0c",
-            "Status": 1000,
-            "StatusCode": 1000,
-            "EnvelopeStatus": 1300,
-            "EnvelopeStatusCode": 1300,
-            "Message": null,
-            "CreateDateUtc": "2025-01-16T20:39:59.677",
-            "ExecutionDate": "2025-01-16T16:32:00",
-            "PayableAmount": 900,
-            "TaxTotal": 150,
-            "TaxExclusiveAmount": 750,
-            "DocumentCurrencyCode": "TRY",
-            "ExchangeRate": 1,
-            "Vat1": 0,
-            "Vat8": 0,
-            "Vat10": 0,
-            "Vat18": 0,
-            "Vat20": 150,
-            "Vat0TaxableAmount": 0,
-            "Vat1TaxableAmount": 0,
-            "Vat8TaxableAmount": 0,
-            "Vat10TaxableAmount": 0,
-            "Vat18TaxableAmount": 0,
-            "Vat20TaxableAmount": 750,
-            "OrderDocumentId": null,
-            "IsArchived": false,
-            "InvoiceTipType": 0,
-            "InvoiceTipTypeCode": 0
-          },
-          {
-            "IsNew": true,
-            "IsSeen": false,
-            "InvoiceId": "0012025008211385",
-            "DocumentId": "ba3aa123-308a-4327-a32e-75f35367b332",
-            "Type": 0,
-            "TypeCode": 0,
-            "TargetTcknVkn": "8770013406",
-            "TargetTitle": "Turkcell Iletisim Hizmetleri A.S.",
-            "EnvelopeIdentifier": "99ff905a-ece0-4ca2-83d6-093196013ca8",
-            "Status": 1000,
-            "StatusCode": 1000,
-            "EnvelopeStatus": 1300,
-            "EnvelopeStatusCode": 1300,
-            "Message": null,
-            "CreateDateUtc": "2025-01-22T09:30:27.187",
-            "ExecutionDate": "2025-01-20T00:00:00",
-            "PayableAmount": 371.5,
-      
+const axios = require('axios');
+
+module.exports = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    try {
+        const username = process.env.UYUMSOFT_USERNAME;
+        const password = process.env.UYUMSOFT_PASSWORD;
+        
+        const { startDate, endDate } = req.body;
+        
+        const start = startDate || '2024-01-01T00:00:00.000';
+        const end = endDate || '2025-12-31T23:59:59.999';
+        
+        const apiUrl = 'http://edonusumapi.uyum.com.tr/api/BasicIntegrationApi';
+
+        const requestBody = {
+            "Action": "GetInboxInvoiceList",
+            "parameters": {
+                "userInfo": {
+                    "Username": username,
+                    "Password": password
+                },
+                "query": {
+                    "CreateStartDate": start,
+                    "CreateEndDate": end
+                }
+            }
+        };
+
+        const response = await axios({
+            method: 'post',
+            url: apiUrl,
+            data: requestBody,
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Accept': '*/*'
+            },
+            timeout: 60000
+        });
+
+        let invoices = [];
+        
+        if (response.data?.Data?.Value?.Items) {
+            invoices = response.data.Data.Value.Items;
+        }
+
+        const formattedInvoices = invoices.map(inv => ({
+            invoiceNumber: inv.InvoiceId || '-',
+            uuid: inv.DocumentId || '-',
+            invoiceDate: inv.ExecutionDate || inv.CreateDateUtc || '-',
+            senderName: inv.TargetTitle || '-',
+            senderVkn: inv.TargetTcknVkn || '-',
+            amount: inv.TaxExclusiveAmount || 0,
+            taxAmount: inv.TaxTotal || 0,
+            totalAmount: inv.PayableAmount || 0,
+            currency: inv.DocumentCurrencyCode || 'TRY',
+            status: inv.Status === 1000 ? 'Onaylandı' : inv.Status || '-',
+            isNew: inv.IsNew
+        }));
+
+        return res.status(200).json({
+            success: true,
+            count: formattedInvoices.length,
+            invoices: formattedInvoices
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: error.message,
+            details: error.response?.data
+        });
+    }
+};
