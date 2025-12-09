@@ -22,19 +22,23 @@ module.exports = async (req, res) => {
         const apiUrl = 'https://efatura.uyumsoft.com.tr/Services/Integration';
 
         const soapRequest = `<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
-    <soap:Body>
-        <tem:GetInboxInvoiceList>
-            <tem:userInfo>
-                <tem:Username>${username}</tem:Username>
-                <tem:Password>${password}</tem:Password>
-            </tem:userInfo>
-            <tem:invoiceListRequest>
-                <tem:Taken>All</tem:Taken>
-            </tem:invoiceListRequest>
-        </tem:GetInboxInvoiceList>
-    </soap:Body>
-</soap:Envelope>`;
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+    <s:Header>
+        <Security xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <UsernameToken>
+                <Username>${username}</Username>
+                <Password>${password}</Password>
+            </UsernameToken>
+        </Security>
+    </s:Header>
+    <s:Body>
+        <GetInboxInvoiceList xmlns="http://tempuri.org/">
+            <invoiceListRequest>
+                <Taken xmlns="http://schemas.datacontract.org/2004/07/Uyumsoft.EFatura.Proxy.Integration">All</Taken>
+            </invoiceListRequest>
+        </GetInboxInvoiceList>
+    </s:Body>
+</s:Envelope>`;
 
         const response = await axios.post(apiUrl, soapRequest, {
             headers: {
@@ -76,7 +80,8 @@ module.exports = async (req, res) => {
         return res.status(200).json({
             success: true,
             count: formattedInvoices.length,
-            invoices: formattedInvoices
+            invoices: formattedInvoices,
+            raw: response.data
         });
 
     } catch (error) {
