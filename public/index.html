@@ -3,504 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finans Yönetim Sistemi - Uyumsoft</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <title>Finans Yönetim Sistemi</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #fff;
         }
-
         .navbar {
             background: rgba(0, 0, 0, 0.3);
             padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
             background: linear-gradient(90deg, #00d2ff, #3a7bd5);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-
-        .nav-menu {
-            display: flex;
-            gap: 10px;
-        }
-
+        .nav-menu { display: flex; gap: 10px; }
         .nav-btn {
             background: transparent;
             color: #8892b0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.2);
             padding: 10px 25px;
             border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
+            transition: all 0.3s;
         }
-
-        .nav-btn:hover {
-            border-color: #00d2ff;
-            color: #00d2ff;
-        }
-
+        .nav-btn:hover { border-color: #00d2ff; color: #00d2ff; }
         .nav-btn.active {
             background: linear-gradient(90deg, #00d2ff, #3a7bd5);
             color: #fff;
             border: none;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px;
-        }
-
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px; }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        .section-header { text-align: center; margin-bottom: 30px; }
         .section-header h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin-bottom: 10px;
             background: linear-gradient(90deg, #00d2ff, #3a7bd5);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-
-        .section-header p {
-            color: #8892b0;
-            font-size: 1rem;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 25px;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .card-header h2 {
-            color: #e6f1ff;
-            font-size: 1.2rem;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #8892b0;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1rem;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #00d2ff;
-        }
-
-        .form-group input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border-radius: 25px;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(58, 123, 213, 0.4);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #00d2ff;
-            border: 1px solid #00d2ff;
-        }
-
-        .btn-outline:hover {
-            background: #00d2ff;
-            color: #1a1a2e;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .tab-btn {
-            padding: 12px 25px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: #8892b0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn:hover {
-            border-color: #00d2ff;
-            color: #00d2ff;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
-            color: #fff;
-            border: none;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat-card h4 {
-            color: #8892b0;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .stat-card .value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        th {
-            background: rgba(255, 255, 255, 0.03);
-            color: #8892b0;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        tr:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        td {
-            color: #e6f1ff;
-            font-size: 0.95rem;
-        }
-
-        .amount-positive { color: #00ff88; }
-        .amount-negative { color: #ff4757; }
-
-        .upload-area {
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 50px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .upload-area:hover {
-            border-color: #3a7bd5;
-            background: rgba(58, 123, 213, 0.1);
-        }
-
-        .upload-area.dragover {
-            border-color: #00d2ff;
-            background: rgba(0, 210, 255, 0.1);
-        }
-
-        .upload-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 40px;
-        }
-
-        .loading.active {
-            display: block;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-left-color: #00d2ff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .alert {
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .alert.show {
-            display: block;
-        }
-
-        .alert-error {
-            background: rgba(255, 71, 87, 0.2);
-            border: 1px solid #ff4757;
-            color: #ff4757;
-        }
-
-        .alert-success {
-            background: rgba(0, 255, 136, 0.2);
-            border: 1px solid #00ff88;
-            color: #00ff88;
-        }
-
-        .raw-toggle {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .raw-toggle-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #8892b0;
-        }
-
-        .raw-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .raw-content.expanded {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-top: 15px;
-        }
-
-        .raw-content pre {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            color: #8892b0;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
+        .section-header p { color: #8892b0; }
         .provider-badge {
             background: linear-gradient(90deg, #ff6b6b, #ffa502);
             color: #fff;
             padding: 5px 15px;
             border-radius: 20px;
             font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 25px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .card-header h2 { color: #e6f1ff; font-size: 1.2rem; }
+        .form-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: flex-end;
+        }
+        .form-group { flex: 1; min-width: 200px; }
+        .form-group label {
+            display: block;
+            color: #8892b0;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .form-group input:focus { outline: none; border-color: #00d2ff; }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn {
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: #8892b0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .tab-btn:hover { border-color: #00d2ff; color: #00d2ff; }
+        .tab-btn.active {
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            color: #fff;
+            border: none;
+        }
+        .btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(58,123,213,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: #00d2ff;
+            border: 1px solid #00d2ff;
+        }
+        .btn-outline:hover { background: #00d2ff; color: #1a1a2e; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-card h4 {
+            color: #8892b0;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .stat-card .value {
+            font-size: 1.5rem;
             font-weight: bold;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .nav-menu {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .section-header h1 {
-                font-size: 1.6rem;
-            }
-
-            .form-row {
-                flex-direction: column;
-            }
-
-            .tabs {
-                flex-wrap: wrap;
-            }
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
+        th {
+            background: rgba(255,255,255,0.03);
+            color: #8892b0;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        tr:hover { background: rgba(255,255,255,0.02); }
+        td { color: #e6f1ff; font-size: 0.9rem; }
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .alert.show { display: block; }
+        .alert-error { background: rgba(255,71,87,0.2); border: 1px solid #ff4757; color: #ff4757; }
+        .alert-success { background: rgba(0,255,136,0.2); border: 1px solid #00ff88; color: #00ff88; }
+        .loading { display: none; text-align: center; padding: 40px; }
+        .loading.active { display: block; }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-left-color: #00d2ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .upload-area {
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 50px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-area:hover { border-color: #3a7bd5; background: rgba(58,123,213,0.1); }
+        .upload-icon { font-size: 3rem; margin-bottom: 15px; }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .status-approved { background: rgba(0,255,136,0.2); color: #00ff88; }
+        .status-pending { background: rgba(255,165,0,0.2); color: #ffa500; }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">💼 Finans Yönetim</div>
         <div class="nav-menu">
-            <button class="nav-btn active" onclick="showPage('ekstrem')">📊 Banka Ekstresi</button>
-            <button class="nav-btn" onclick="showPage('fatura')">🧾 E-Fatura</button>
+            <button class="nav-btn" onclick="showPage('ekstrem', this)">📊 Banka Ekstresi</button>
+            <button class="nav-btn active" onclick="showPage('fatura', this)">🧾 E-Fatura</button>
         </div>
     </nav>
 
     <div class="container">
-        <!-- Banka Ekstresi Sayfası -->
-        <div id="ekstrem" class="page-section active">
+        <!-- Banka Ekstresi -->
+        <div id="ekstrem" class="page-section">
             <div class="section-header">
                 <h1>📊 Banka Ekstresi Analiz</h1>
                 <p>PDF dosyanızı yükleyin, işlem detaylarını otomatik çıkaralım</p>
             </div>
-
             <div class="card">
-                <div class="upload-area" id="dropZone">
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
                     <div class="upload-icon">📄</div>
                     <h3>PDF Dosyası Yükle</h3>
-                    <p style="color: #8892b0; margin: 10px 0;">Banka ekstrenizi sürükleyip bırakın veya tıklayın</p>
-                    <input type="file" id="fileInput" style="display: none;" accept=".pdf">
-                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">Dosya Seç</button>
-                    <div id="fileName" style="margin-top: 15px; color: #00d2ff;"></div>
-                </div>
-            </div>
-
-            <div class="loading" id="pdfLoading">
-                <div class="spinner"></div>
-                <p>PDF analiz ediliyor...</p>
-            </div>
-
-            <div id="pdfResults" style="display: none;">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h4>Toplam İşlem</h4>
-                        <div class="value" id="totalTransactions">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Toplam Giriş</h4>
-                        <div class="value" id="totalIncome">₺0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Toplam Çıkış</h4>
-                        <div class="value" id="totalExpense">₺0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Son Bakiye</h4>
-                        <div class="value" id="lastBalance">₺0</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2>İşlem Detayları</h2>
-                        <button class="btn btn-outline" onclick="exportPdfToCSV()">CSV İndir</button>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Tarih</th>
-                                    <th>Açıklama</th>
-                                    <th>Tutar</th>
-                                    <th>Bakiye</th>
-                                </tr>
-                            </thead>
-                            <tbody id="transactionsTable"></tbody>
-                        </table>
-                    </div>
+                    <p style="color:#8892b0; margin:10px 0;">Banka ekstrenizi sürükleyip bırakın veya tıklayın</p>
+                    <input type="file" id="fileInput" style="display:none;" accept=".pdf">
                 </div>
             </div>
         </div>
 
-        <!-- E-Fatura Sayfası -->
-        <div id="fatura" class="page-section">
+        <!-- E-Fatura -->
+        <div id="fatura" class="page-section active">
             <div class="section-header">
                 <h1>🧾 E-Fatura Yönetimi</h1>
                 <p>Uyumsoft üzerinden faturalarınızı sorgulayın</p>
@@ -512,15 +262,26 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h2>Fatura Sorgulama</h2>
+                    <h2>📅 Fatura Sorgulama</h2>
                 </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Başlangıç Tarihi</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Bitiş Tarihi</label>
+                        <input type="date" id="endDate">
+                    </div>
+                </div>
+
                 <div class="tabs">
-                    <button class="tab-btn active" onclick="setFaturaType('gelen')">📥 Gelen Faturalar</button>
-                    <button class="tab-btn" onclick="setFaturaType('giden')">📤 Giden Faturalar</button>
+                    <button class="tab-btn active" onclick="setFaturaType('gelen', this)">📥 Gelen Faturalar</button>
+                    <button class="tab-btn" onclick="setFaturaType('giden', this)">📤 Giden Faturalar</button>
                 </div>
-                <button class="btn btn-primary" onclick="queryFaturalar()" id="queryBtn">
-                    🔍 Faturaları Getir
-                </button>
+
+                <button class="btn btn-primary" onclick="queryFaturalar()">🔍 Faturaları Getir</button>
             </div>
 
             <div class="loading" id="faturaLoading">
@@ -528,7 +289,7 @@
                 <p>Faturalar sorgulanıyor...</p>
             </div>
 
-            <div id="faturaResults" style="display: none;">
+            <div id="faturaResults" style="display:none;">
                 <div class="stats-grid">
                     <div class="stat-card">
                         <h4>Bulunan Fatura</h4>
@@ -547,7 +308,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h2 id="faturaTableTitle">Gelen Faturalar</h2>
-                        <button class="btn btn-outline" onclick="exportFaturaToCSV()">CSV İndir</button>
+                        <button class="btn btn-outline" onclick="exportCSV()">📥 CSV İndir</button>
                     </div>
                     <div class="table-container">
                         <table>
@@ -565,225 +326,48 @@
                             <tbody id="faturaTable"></tbody>
                         </table>
                     </div>
-
-                    <div class="raw-toggle" onclick="toggleRawResponse()">
-                        <div class="raw-toggle-header">
-                            <span>API Ham Yanıtı</span>
-                            <span id="rawToggleIcon">▼</span>
-                        </div>
-                        <div class="raw-content" id="rawResponseContent">
-                            <pre id="rawResponse"></pre>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-        let pdfTransactions = [];
-        let faturaData = [];
         let currentFaturaType = 'gelen';
+        let faturaData = [];
 
-        const API_BASE = window.location.hostname === 'localhost' 
-            ? 'http://localhost:3000' 
-            : '';
+        // Varsayılan tarihleri ayarla (son 30 gün)
+        function setDefaultDates() {
+            const today = new Date();
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(today.getDate() - 30);
+            
+            document.getElementById('endDate').value = today.toISOString().split('T')[0];
+            document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+        }
+        setDefaultDates();
 
-        function showPage(pageId) {
+        function showPage(pageId, btn) {
             document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            
             document.getElementById(pageId).classList.add('active');
-            event.target.classList.add('active');
+            btn.classList.add('active');
         }
 
-        // ==================== PDF SECTION ====================
-        
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, e => {
-                e.preventDefault();
-                e.stopPropagation();
-            });
-        });
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'));
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'));
-        });
-
-        dropZone.addEventListener('drop', e => {
-            const files = e.dataTransfer.files;
-            if (files.length > 0 && files[0].type === 'application/pdf') {
-                handlePdfFile(files[0]);
-            }
-        });
-
-        fileInput.addEventListener('change', e => {
-            if (e.target.files.length > 0) {
-                handlePdfFile(e.target.files[0]);
-            }
-        });
-
-        async function handlePdfFile(file) {
-            document.getElementById('fileName').textContent = `Seçilen: ${file.name}`;
-            document.getElementById('pdfLoading').classList.add('active');
-            document.getElementById('pdfResults').style.display = 'none';
-
-            try {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                
-                let fullText = '';
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const page = await pdf.getPage(i);
-                    const textContent = await page.getTextContent();
-                    fullText += textContent.items.map(item => item.str).join(' ') + '\n';
-                }
-
-                pdfTransactions = extractTransactions(fullText);
-                displayPdfResults(pdfTransactions);
-                
-            } catch (error) {
-                console.error('PDF okuma hatası:', error);
-                alert('PDF okuma hatası: ' + error.message);
-            } finally {
-                document.getElementById('pdfLoading').classList.remove('active');
-            }
-        }
-
-        function extractTransactions(text) {
-            const transactions = [];
-            const lines = text.split(/\n|\s{2,}/);
-            
-            const datePatterns = [
-                /(\d{2}[\/\.\-]\d{2}[\/\.\-]\d{4})/,
-                /(\d{2}[\/\.\-]\d{2}[\/\.\-]\d{2})/,
-                /(\d{4}[\/\.\-]\d{2}[\/\.\-]\d{2})/
-            ];
-            
-            const amountPattern = /[\-\+]?\s*[\d\.,]+(?:\s*(?:TL|₺|TRY))?|\d{1,3}(?:\.\d{3})*(?:,\d{2})?/g;
-            
-            let currentLine = '';
-            
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (!line) continue;
-                
-                currentLine += ' ' + line;
-                
-                let dateMatch = null;
-                for (const pattern of datePatterns) {
-                    const match = currentLine.match(pattern);
-                    if (match) {
-                        dateMatch = match[1];
-                        break;
-                    }
-                }
-                
-                if (dateMatch) {
-                    const amounts = currentLine.match(amountPattern) || [];
-                    const numericAmounts = amounts
-                        .map(a => {
-                            let cleaned = a.replace(/[^\d\.,\-\+]/g, '');
-                            cleaned = cleaned.replace(/\./g, '').replace(',', '.');
-                            return parseFloat(cleaned);
-                        })
-                        .filter(n => !isNaN(n) && Math.abs(n) > 0.01);
-                    
-                    if (numericAmounts.length >= 1) {
-                        let description = currentLine
-                            .replace(dateMatch, '')
-                            .replace(amountPattern, '')
-                            .trim();
-                        
-                        if (description.length < 3) description = 'İşlem';
-                        
-                        transactions.push({
-                            date: dateMatch,
-                            description: description.substring(0, 100),
-                            amount: numericAmounts[0],
-                            balance: numericAmounts.length > 1 ? numericAmounts[numericAmounts.length - 1] : null
-                        });
-                        
-                        currentLine = '';
-                    }
-                }
-                
-                if (currentLine.length > 500) currentLine = '';
-            }
-            
-            return transactions;
-        }
-
-        function displayPdfResults(transactions) {
-            const tbody = document.getElementById('transactionsTable');
-            tbody.innerHTML = '';
-            
-            if (transactions.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#8892b0;">İşlem bulunamadı</td></tr>';
-                document.getElementById('pdfResults').style.display = 'block';
-                return;
-            }
-            
-            let totalIncome = 0, totalExpense = 0, lastBalance = 0;
-            
-            transactions.forEach(t => {
-                const row = document.createElement('tr');
-                const amountClass = t.amount >= 0 ? 'amount-positive' : 'amount-negative';
-                
-                if (t.amount >= 0) totalIncome += t.amount;
-                else totalExpense += Math.abs(t.amount);
-                if (t.balance !== null) lastBalance = t.balance;
-                
-                row.innerHTML = `
-                    <td>${t.date}</td>
-                    <td>${escapeHtml(t.description)}</td>
-                    <td class="${amountClass}">${formatCurrency(t.amount)}</td>
-                    <td>${t.balance !== null ? formatCurrency(t.balance) : '-'}</td>
-                `;
-                tbody.appendChild(row);
-            });
-            
-            document.getElementById('totalTransactions').textContent = transactions.length;
-            document.getElementById('totalIncome').textContent = formatCurrency(totalIncome);
-            document.getElementById('totalExpense').textContent = formatCurrency(totalExpense);
-            document.getElementById('lastBalance').textContent = formatCurrency(lastBalance);
-            
-            document.getElementById('pdfResults').style.display = 'block';
-        }
-
-        function exportPdfToCSV() {
-            if (pdfTransactions.length === 0) return alert('Dışa aktarılacak veri yok');
-            
-            const headers = ['Tarih', 'Açıklama', 'Tutar', 'Bakiye'];
-            const rows = pdfTransactions.map(t => [
-                t.date,
-                `"${t.description.replace(/"/g, '""')}"`,
-                t.amount,
-                t.balance !== null ? t.balance : ''
-            ]);
-            
-            const csv = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
-            downloadCSV(csv, 'banka_ekstresi.csv');
-        }
-
-        // ==================== FATURA SECTION ====================
-
-        function setFaturaType(type) {
+        function setFaturaType(type, btn) {
             currentFaturaType = type;
             document.querySelectorAll('.tabs .tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            btn.classList.add('active');
         }
 
         async function queryFaturalar() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            if (!startDate || !endDate) {
+                showAlert('error', 'Lütfen tarih aralığı seçin');
+                return;
+            }
+
             document.getElementById('faturaLoading').classList.add('active');
             document.getElementById('faturaResults').style.display = 'none';
             hideAlerts();
@@ -791,12 +375,13 @@
             const endpoint = currentFaturaType === 'gelen' ? '/api/gelen' : '/api/giden';
 
             try {
-                const response = await fetch(API_BASE + endpoint, {
+                const response = await fetch(endpoint, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        startDate: startDate + 'T00:00:00.000',
+                        endDate: endDate + 'T23:59:59.999'
+                    })
                 });
 
                 const data = await response.json();
@@ -806,18 +391,17 @@
                 }
 
                 faturaData = data.invoices || [];
-                displayFaturaResults(faturaData, data.rawResponse);
-                showAlert('success', `${faturaData.length} fatura bulundu`);
+                displayFaturaResults(faturaData);
+                showAlert('success', faturaData.length + ' fatura bulundu');
 
             } catch (error) {
-                console.error('Fatura sorgulama hatası:', error);
                 showAlert('error', 'Hata: ' + error.message);
             } finally {
                 document.getElementById('faturaLoading').classList.remove('active');
             }
         }
 
-        function displayFaturaResults(invoices, rawResponse) {
+        function displayFaturaResults(invoices) {
             const tbody = document.getElementById('faturaTable');
             tbody.innerHTML = '';
 
@@ -825,91 +409,45 @@
                 currentFaturaType === 'gelen' ? 'Gelen Faturalar' : 'Giden Faturalar';
 
             if (invoices.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#8892b0;">Fatura bulunamadı</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#8892b0;">Fatura bulunamadı</td></tr>';
+                document.getElementById('faturaCount').textContent = '0';
+                document.getElementById('faturaToplam').textContent = '₺0';
+                document.getElementById('faturaKdv').textContent = '₺0';
             } else {
                 let totalAmount = 0, totalKdv = 0;
 
                 invoices.forEach(inv => {
                     const row = document.createElement('tr');
                     
-                    const invoiceNo = inv.invoiceNumber || '-';
-                    const invoiceDate = inv.invoiceDate || '-';
-                    const party = inv.senderName || inv.receiverName || '-';
-                    const amount = inv.amount || 0;
-                    const kdv = inv.taxAmount || 0;
-                    const total = inv.totalAmount || (amount + kdv);
-                    const status = inv.status || '-';
+                    const date = inv.invoiceDate ? inv.invoiceDate.split('T')[0] : '-';
+                    const firma = inv.senderName || inv.receiverName || '-';
+                    const statusClass = inv.status === 'Onaylandı' ? 'status-approved' : 'status-pending';
+                    
+                    totalAmount += inv.amount || 0;
+                    totalKdv += inv.taxAmount || 0;
 
-                    totalAmount += amount;
-                    totalKdv += kdv;
-
-                    row.innerHTML = `
-                        <td>${invoiceNo}</td>
-                        <td>${invoiceDate}</td>
-                        <td>${escapeHtml(party)}</td>
-                        <td>${formatCurrency(amount)}</td>
-                        <td>${formatCurrency(kdv)}</td>
-                        <td>${formatCurrency(total)}</td>
-                        <td>${status}</td>
-                    `;
+                    row.innerHTML = 
+                        '<td>' + inv.invoiceNumber + '</td>' +
+                        '<td>' + date + '</td>' +
+                        '<td>' + firma + '</td>' +
+                        '<td>' + formatCurrency(inv.amount) + '</td>' +
+                        '<td>' + formatCurrency(inv.taxAmount) + '</td>' +
+                        '<td>' + formatCurrency(inv.totalAmount) + '</td>' +
+                        '<td><span class="status-badge ' + statusClass + '">' + inv.status + '</span></td>';
+                    
                     tbody.appendChild(row);
                 });
 
+                document.getElementById('faturaCount').textContent = invoices.length;
                 document.getElementById('faturaToplam').textContent = formatCurrency(totalAmount);
                 document.getElementById('faturaKdv').textContent = formatCurrency(totalKdv);
             }
 
-            document.getElementById('faturaCount').textContent = invoices.length;
-            document.getElementById('rawResponse').textContent = rawResponse || 'Yanıt yok';
             document.getElementById('faturaResults').style.display = 'block';
         }
 
-        function exportFaturaToCSV() {
-            if (faturaData.length === 0) return alert('Dışa aktarılacak veri yok');
-            
-            const headers = ['Fatura No', 'Tarih', 'Firma', 'Tutar', 'KDV', 'Toplam', 'Durum'];
-            const rows = faturaData.map(inv => [
-                inv.invoiceNumber || '',
-                inv.invoiceDate || '',
-                `"${(inv.senderName || inv.receiverName || '').replace(/"/g, '""')}"`,
-                inv.amount || 0,
-                inv.taxAmount || 0,
-                inv.totalAmount || 0,
-                inv.status || ''
-            ]);
-            
-            const csv = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
-            downloadCSV(csv, `faturalar_${currentFaturaType}.csv`);
-        }
-
-        function toggleRawResponse() {
-            const content = document.getElementById('rawResponseContent');
-            const icon = document.getElementById('rawToggleIcon');
-            content.classList.toggle('expanded');
-            icon.textContent = content.classList.contains('expanded') ? '▲' : '▼';
-        }
-
-        // ==================== HELPERS ====================
-
         function formatCurrency(amount) {
-            return new Intl.NumberFormat('tr-TR', {
-                style: 'currency',
-                currency: 'TRY'
-            }).format(amount);
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function downloadCSV(csv, filename) {
-            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            link.click();
+            return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(amount || 0);
         }
 
         function showAlert(type, message) {
@@ -922,6 +460,33 @@
         function hideAlerts() {
             document.getElementById('faturaError').classList.remove('show');
             document.getElementById('faturaSuccess').classList.remove('show');
+        }
+
+        function exportCSV() {
+            if (faturaData.length === 0) {
+                alert('İndirilecek veri yok');
+                return;
+            }
+
+            const headers = ['Fatura No', 'Tarih', 'Firma', 'Tutar', 'KDV', 'Toplam', 'Durum'];
+            const rows = faturaData.map(inv => [
+                inv.invoiceNumber,
+                inv.invoiceDate ? inv.invoiceDate.split('T')[0] : '',
+                inv.senderName || inv.receiverName || '',
+                inv.amount,
+                inv.taxAmount,
+                inv.totalAmount,
+                inv.status
+            ]);
+
+            let csv = headers.join(';') + '\n';
+            rows.forEach(row => { csv += row.join(';') + '\n'; });
+
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'faturalar_' + currentFaturaType + '.csv';
+            link.click();
         }
     </script>
 </body>
