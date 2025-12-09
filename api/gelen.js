@@ -18,7 +18,8 @@ module.exports = async (req, res) => {
         const username = process.env.UYUMSOFT_USERNAME;
         const password = process.env.UYUMSOFT_PASSWORD;
         
-        const apiUrl = 'https://efatura.uyumsoft.com.tr/Services/Integration';
+        // Uyumsoft Canlı REST API
+        const apiUrl = 'http://edonusumapi.uyum.com.tr/api/BasicIntegrationApi';
 
         const requestBody = {
             "Action": "GetInboxInvoiceList",
@@ -36,7 +37,8 @@ module.exports = async (req, res) => {
 
         const response = await axios.post(apiUrl, requestBody, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             timeout: 60000
         });
@@ -71,7 +73,8 @@ module.exports = async (req, res) => {
         return res.status(500).json({
             success: false,
             error: error.message,
-            details: error.response?.data || error.toString()
+            response: error.response?.data,
+            status: error.response?.status
         });
     }
 };
