@@ -18,7 +18,6 @@ module.exports = async (req, res) => {
         const username = process.env.UYUMSOFT_USERNAME;
         const password = process.env.UYUMSOFT_PASSWORD;
         
-        // Uyumsoft Canlı REST API
         const apiUrl = 'http://edonusumapi.uyum.com.tr/api/BasicIntegrationApi';
 
         const requestBody = {
@@ -35,10 +34,13 @@ module.exports = async (req, res) => {
             }
         };
 
-        const response = await axios.post(apiUrl, requestBody, {
+        const response = await axios({
+            method: 'post',
+            url: apiUrl,
+            data: requestBody,
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Content-Type': 'application/json; charset=utf-8',
+                'Accept': '*/*'
             },
             timeout: 60000
         });
@@ -74,7 +76,8 @@ module.exports = async (req, res) => {
             success: false,
             error: error.message,
             response: error.response?.data,
-            status: error.response?.status
+            status: error.response?.status,
+            url: 'http://edonusumapi.uyum.com.tr/api/BasicIntegrationApi'
         });
     }
 };
