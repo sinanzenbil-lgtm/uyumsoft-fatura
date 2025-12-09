@@ -788,7 +788,7 @@
             document.getElementById('faturaResults').style.display = 'none';
             hideAlerts();
 
-            const endpoint = currentFaturaType === 'gelen' ? '/api/gelen-fatura' : '/api/giden-fatura';
+            const endpoint = currentFaturaType === 'gelen' ? '/api/gelen' : '/api/giden';
 
             try {
                 const response = await fetch(API_BASE + endpoint, {
